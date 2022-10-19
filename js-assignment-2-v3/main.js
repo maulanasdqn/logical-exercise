@@ -1,23 +1,21 @@
-function convertItems(items) {
-    return []; // TODO: replace this
-}
+const convertItems = items => items.map(x => x.split("|"))
 
-function filterItems(items) {
-    console.log(items, "<<<<<<<<<<<<");
-    return [[]]; // TODO: replace this
-}
+const filterItems = items => items.filter(x => x.length !== 1).map(x => [x[0], parseInt(x[1]), x[2]])
 
-function generateSpareParts(items) {
-    return []; // TODO: replace this
-}
+const generateSpareParts = items => items.map(x => ({name: x[0], price: x[1], category: x[2]}))
 
-function itemsStatistics(items) {
-    return {}; // TODO: replace this
-}
+const f = (i, a) => i.filter(x => x[2] === a).length
 
-function generateItemsData(items) {
-    return {}; // TODO: replace this
-}
+const itemsStatistics = items => ({
+  "variation": f(items, "variation"),
+  "bodyParts": f(items, "bodyParts"),
+  "electricity": f(items, "electricity")
+})
+
+const generateItemsData = items => ({
+  'spare_parts': generateSpareParts(filterItems(convertItems(items))),
+  'statistics' : itemsStatistics(filterItems(convertItems(items)))
+})
 
 const items = [
     "Spakbor Gordon|150000|variation",
@@ -31,6 +29,10 @@ const items = [
     "CDI BRT KLX|625000|electricity",
     "Cover jok KLX|185000|variation",
 ]
+
+console.log(generateSpareParts(filterItems(convertItems(items))));
+
+console.log(itemsStatistics(filterItems(convertItems(items))))
 
 console.log(generateItemsData(items));
 
