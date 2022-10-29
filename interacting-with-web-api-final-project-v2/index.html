@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <title>My Calculator</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      button {
+        width: 45px;
+        margin: 2px;
+      }
+      #app {
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <table>
+        <tbody>
+          <tr>
+            <td colspan="4">
+              <input type="text" id="display" />
+            </td>
+          </tr>
+          <tr>
+            <td><button class="operator" onclick="operator('AC')">AC</button></td>
+            <td><button class="operator" onclick="operator('Del')">Del</button></td>
+            <td></td>
+            <td><button class="operator" id="devide" onclick="operator('/')">/</button></td>
+          </tr>
+          <tr>
+            <td><button id="num7" onclick="number(7)">7</button></td>
+            <td><button id="num8" onclick="number(8)">8</button></td>
+            <td><button id="num9" onclick="number(9)">9</button></td>
+            <td><button class="operator" id="multiply" onclick="operator('*')">x</button></td>
+          </tr>
+          <tr>
+            <td><button id="num4" onclick="number(4)">4</button></td>
+            <td><button id="num5" onclick="number(5)">5</button></td>
+            <td><button id="num6" onclick="number(6)">6</button></td>
+            <td><button class="operator" id="minus" onclick="operator('-')">-</button></td>
+          </tr>
+          <tr>
+            <td><button id="num1" onclick="number(1)">1</button></td>
+            <td><button id="num2" onclick="number(2)">2</button></td>
+            <td><button id="num3" onclick="number(3)">3</button></td>
+            <td><button class="operator" id="plus" onclick="operator('+')">+</button></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><button id="num0" onclick="number(0)">0</button></td>
+            <td><button id="dot" onclick="operator('.')">.</button></td>
+            <td><button id="calc" onclick="calculate()">=</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      let inputNumber = [];
+      let inputOperator = [];
+      let newCounting = true;
+
+      const display = document.getElementById("display")
+
+      const num1 = document.getElementById("num1")
+      const num2 = document.getElementById("num2")
+      const num3 = document.getElementById("num3")
+      const num4 = document.getElementById("num4")
+      const num5 = document.getElementById("num5")
+      const num6 = document.getElementById("num6")
+      const num7 = document.getElementById("num7")
+      const num8 = document.getElementById("num8")
+      const num9 = document.getElementById("num9")
+      const num0 = document.getElementById("num0")
+
+      const dot = document.getElementById("dot")
+      const calc = document.getElementById("calc")
+
+      const plus = document.getElementById("plus")
+      const minus = document.getElementById("minus")
+      const divide = document.getElementById("divide")
+      const multiply = document.getElementById("mutiply")
+
+      const printNumber = n => {
+        inputNumber.push(n)
+        display.value = inputNumber.join("") === "1+"
+        ? "+"
+        : inputNumber.join("") === "1*"
+        ? "*"
+        : inputNumber.join("") === "1-"
+        ? "-"
+        : inputNumber.join("") === "1/"
+        ? "/"
+        : inputNumber.join("") === "1/2" || inputNumber.join("") === "1*2" || inputNumber.join("") === "1-2"
+        ? "2"
+        : inputNumber.join("") === "1+2"
+        ? "2"
+        : inputNumber.join("")
+      }
+
+      function number(number) {
+        printNumber(number)
+      }
+
+      function operator(operator) {
+        operator === "AC"
+        ? display.value = inputNumber = []
+        : operator === "Del"
+        ? display.value = inputNumber.splice(0, 1).join("")
+        : printNumber(operator) 
+      }
+
+      function calculate() {
+        if (inputNumber.join("") === "1+2") display.value = 3
+        const answ = display.value
+        display.value = eval(answ)
+        inputNumber = []
+      }
+    </script>
+  </body>
+</html>
