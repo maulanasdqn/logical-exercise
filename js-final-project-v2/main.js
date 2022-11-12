@@ -1,4 +1,4 @@
-const findMovies = (favoriteGenre) => {
+function findMovies(favoriteGenres) {
   const movies = [
     {
       id: 1,
@@ -92,66 +92,64 @@ const findMovies = (favoriteGenre) => {
       capacity: 75,
     },
   ];
-  return movies.filter((x) => favoriteGenre.includes(x.genre));
-};
-
-const findTicketAvailability = (movie, user) =>
-  [movie].map(
-    (x) =>
-      x.soldTicket !== x.capacity && user.ticket + x.soldTicket <= x.capacity
-  )[0];
-
-const findRecommendation = (user) =>
-  findMovies(user.favoriteGenre).filter(
-    (x) =>
-      x.soldTicket !== x.capacity && user.ticket + x.soldTicket <= x.capacity
+  const filteredMovies = movies.filter((movie) =>
+    favoriteGenres.includes(movie.genre)
   );
+  return filteredMovies;
+}
 
-const A = 100000;
-const M = 80000;
-const R = 40000;
-const H = 75000;
+function findTicketAvailability(movie, user) {
+  const checkMovieAvailability = movie.soldTicket !== movie.capacity;
+  const checkUserTicket = user.ticket + movie.soldTicket <= movie.capacity;
+  const compareCondition = checkUserTicket && checkMovieAvailability;
+  return compareCondition;
+}
 
-const generateRecommendation = (user) =>
-  findRecommendation(user).length === 0
-    ? "Tidak ada film yang sesuai kriteria"
-    : findRecommendation(user).map((x) => ({
-        id: x.id,
-        name: x.name,
-        genre: x.genre,
-        totalPrice:
-          x.genre === "Action"
-            ? A * user.ticket
-            : x.genre === "Musical"
-            ? M * user.ticket
-            : x.genre === "Romance"
-            ? R * user.ticket
-            : x.genre === "Horror"
-            ? H * user.ticket
-            : "",
-      }));
+function findRecommendation(user) {
+  const filteredMovies = findMovies(user.favoriteGenre);
+  return filteredMovies.filter(
+    (movie) =>
+      movie.soldTicket !== movie.capacity &&
+      user.ticket + movie.soldTicket <= movie.capacity
+  );
+}
 
-let user1 = {
-  name: "Djalal",
-  ticket: 20,
-  favoriteGenre: ["Porn"],
-};
+function generateRecommendation(user) {
+  const moviePrice = {
+    action: 100000,
+    musical: 80000,
+    romance: 40000,
+    horror: 75000,
+  };
 
-let user2 = {
-  name: "Eddy",
-  ticket: 20,
-  favoriteGenre: ["Musical", "Romance"],
-};
+  function findPrice(movie, user) {
+    if (movie.genre === "Musical") {
+      return user.ticket * moviePrice.musical;
+    } else if (movie.genre === "Action") {
+      return user.ticket * moviePrice.action;
+    } else if (movie.genre === "Romance") {
+      return user.ticket * moviePrice.romance;
+    } else if (movie.genre === "Horror") {
+      return user.ticket * moviePrice.horror;
+    }
+  }
 
-let user3 = {
-  name: "Afis",
-  ticket: 1,
-  favoriteGenre: ["Sci Fi", "Documentary", "Thriller"],
-};
+  const checkMovieAvailability = findRecommendation(user).length;
 
-console.log(generateRecommendation(user1));
-console.log(generateRecommendation(user2));
-console.log(generateRecommendation(user3));
+  if (checkMovieAvailability === 0) {
+    return "Tidak ada film yang sesuai kriteria";
+  }
+
+  const movieMapped = findRecommendation(user).map((movie) => {
+    return {
+      id: movie.id,
+      name: movie.name,
+      genre: movie.genre,
+      totalPrice: findPrice(movie, user),
+    };
+  });
+  return movieMapped;
+}
 
 module.exports = {
   findMovies,
