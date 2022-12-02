@@ -30,7 +30,10 @@ const App = () => {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/pokemon" element={<Pokemon />} />
+        <Route path="pokemon">
+          <Route index element={<Pokemon />} />
+          <Route path=":id" element={<PokemonDetail />} />
+        </Route>
 
         <Route path="unauthorized" element={<Unauthorized />} />
       </Routes>

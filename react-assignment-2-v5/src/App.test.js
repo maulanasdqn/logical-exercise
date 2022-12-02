@@ -7,6 +7,43 @@ import App from "./App";
 beforeEach(() => {
   global.fetch = jest.fn((url) => {
     switch (url) {
+      case "https://pokeapi.co/api/v2/pokemon?limit=20&offset=0":
+        return Promise.resolve({
+          json: async () => ({
+            count: 1154,
+            next: "https://pokeapi.co/api/v2/pokemon?offset=20&limit=20",
+            previous: null,
+            results: [
+              {
+                name: "bulbasaur",
+                url: "https://pokeapi.co/api/v2/pokemon/1/",
+              },
+              {
+                name: "ivysaur",
+                url: "https://pokeapi.co/api/v2/pokemon/2/",
+              },
+            ],
+          }),
+        });
+      case "https://pokeapi.co/api/v2/pokemon?limit=20&offset=20":
+        return Promise.resolve({
+          json: async () => ({
+            count: 1154,
+            next: "https://pokeapi.co/api/v2/pokemon?offset=20&limit=20",
+            previous: null,
+            results: [
+              {
+                name: "spearow",
+                url: "https://pokeapi.co/api/v2/pokemon/21/",
+              },
+            ],
+          }),
+        });
+      default:
+    }
+    url += url.endsWith("/") ? "" : "/";
+
+    switch (url) {
       case "https://pokeapi.co/api/v2/pokemon/1/":
         return Promise.resolve({
           json: async () => ({
@@ -301,38 +338,6 @@ beforeEach(() => {
             weight: 20,
           }),
         });
-      case "https://pokeapi.co/api/v2/pokemon?limit=20&offset=0":
-        return Promise.resolve({
-          json: async () => ({
-            count: 1154,
-            next: "https://pokeapi.co/api/v2/pokemon?offset=20&limit=20",
-            previous: null,
-            results: [
-              {
-                name: "bulbasaur",
-                url: "https://pokeapi.co/api/v2/pokemon/1/",
-              },
-              {
-                name: "ivysaur",
-                url: "https://pokeapi.co/api/v2/pokemon/2/",
-              },
-            ],
-          }),
-        });
-      case "https://pokeapi.co/api/v2/pokemon?limit=20&offset=20":
-        return Promise.resolve({
-          json: async () => ({
-            count: 1154,
-            next: "https://pokeapi.co/api/v2/pokemon?offset=20&limit=20",
-            previous: null,
-            results: [
-              {
-                name: "spearow",
-                url: "https://pokeapi.co/api/v2/pokemon/21/",
-              },
-            ],
-          }),
-        });
       default:
         return Promise.reject(new Error("Not Found"));
     }
@@ -483,7 +488,9 @@ describe("Pokemon List", () => {
 
       await waitFor(() => screen.findByRole("pokemon-list"));
       fireEvent.click(screen.getByText("bulbasaur"));
-      await waitFor(() => screen.findByRole("pokemon-detail"));
+      await waitFor(() => screen.findByRole("pokemon-detail"), {
+        timeout: 15000,
+      });
 
       expect(screen.getByRole("pokemon-detail")).toBeInTheDocument();
     });

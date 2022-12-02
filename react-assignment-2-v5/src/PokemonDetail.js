@@ -7,6 +7,7 @@ import { Table } from "@chakra-ui/react";
 import { Tbody } from "@chakra-ui/react";
 
 const Detail = ({ pokemon }) => {
+  const { id } = useParams();
   return (
     <Box>
       {pokemon && (
