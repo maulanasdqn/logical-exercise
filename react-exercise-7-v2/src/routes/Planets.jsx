@@ -23,7 +23,6 @@ const Planets = () => {
       const response = await fetch("https://swapi.py4e.com/api/planets");
       const data = await response.json();
       setPlanets(data.results);
-      console.log(planets);
     } catch (error) {
       console.log(error);
     }

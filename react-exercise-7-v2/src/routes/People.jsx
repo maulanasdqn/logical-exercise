@@ -23,7 +23,6 @@ const People = () => {
       const response = await fetch("https://swapi.py4e.com/api/people");
       const data = await response.json();
       setPeople(data.results);
-      console.log(data);
     } catch (error) {
       console.log(error);
     }

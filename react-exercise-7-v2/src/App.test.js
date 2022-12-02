@@ -22,8 +22,9 @@ function renderWithInitialEntries(initialEntries) {
 
 beforeEach(() => {
   global.fetch = jest.fn((url) => {
+    url += url.endsWith("/") ? "" : "/";
     switch (url) {
-      case "https://swapi.py4e.com/api/films":
+      case "https://swapi.py4e.com/api/films/":
         return Promise.resolve({
           json: async () => ({
             results: [
@@ -38,7 +39,7 @@ beforeEach(() => {
             ],
           }),
         });
-      case "https://swapi.py4e.com/api/films/2":
+      case "https://swapi.py4e.com/api/films/2/":
         return Promise.resolve({
           json: async () => ({
             opening_crawl:
@@ -48,7 +49,7 @@ beforeEach(() => {
             release_date: "1980-05-17",
           }),
         });
-      case "https://swapi.py4e.com/api/planets":
+      case "https://swapi.py4e.com/api/planets/":
         return Promise.resolve({
           json: async () => ({
             results: [
@@ -59,7 +60,7 @@ beforeEach(() => {
             ],
           }),
         });
-      case "https://swapi.py4e.com/api/planets/1":
+      case "https://swapi.py4e.com/api/planets/1/":
         return Promise.resolve({
           json: async () => ({
             rotation_period: "23",
@@ -70,7 +71,7 @@ beforeEach(() => {
             climate: "arid",
           }),
         });
-      case "https://swapi.py4e.com/api/people":
+      case "https://swapi.py4e.com/api/people/":
         return Promise.resolve({
           json: async () => ({
             results: [
