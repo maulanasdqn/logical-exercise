@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const App = () => {
   const url =
-    "https://ghibliapi.herokuapp.com/films/58611129-2dbc-4a81-a72f-77ddfc1b1b49";
+    "https://ghibliapi.fly.dev/films/58611129-2dbc-4a81-a72f-77ddfc1b1b49";
   const [choice, setChoice] = useState("All");
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({});

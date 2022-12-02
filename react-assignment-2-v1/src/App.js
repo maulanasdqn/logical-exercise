@@ -30,7 +30,8 @@ const App = () => {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* TODO: answer here */}
+        <Route path="/pokemon" element={<Pokemon />} />
+
         <Route path="unauthorized" element={<Unauthorized />} />
       </Routes>
     </Container>
