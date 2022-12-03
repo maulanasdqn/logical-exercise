@@ -8,32 +8,31 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { Image } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 
 const Pagination = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [disabled, setDisabled] = useState(false);
+  let currentPage = searchParams.get("page");
+
+  if (currentPage === null) {
+    currentPage = 1;
+  }
 
   const moveTo = (direction) => {
     if (direction === "prev") {
-      setSearchParams({ page: parseInt(searchParams.get("page")) - 1 });
-    } else {
-      setSearchParams({ page: parseInt(searchParams.get("page")) + 1 });
+      setSearchParams({ page: parseInt(currentPage) - 1 });
+    } else if (direction === "next") {
+      setSearchParams({ page: parseInt(currentPage) + 1 });
     }
   };
 
-  useEffect(() => {
-    setDisabled(false);
-    if (searchParams.get("page") <= 1) {
-      setDisabled(true);
-      searchParams.set("page", 1);
-    }
-  }, [disabled, searchParams, setSearchParams]);
-
   return (
     <HStack>
-      <Button disabled={disabled} onClick={() => moveTo("prev")}>
+      <Button
+        disabled={currentPage <= 1 ? true : false}
+        onClick={() => moveTo("prev")}
+      >
         {"< prev"}
       </Button>
       <Button onClick={() => moveTo("next")}>{"next >"}</Button>
