@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { Image } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { useSearchParams, Outlet } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const Pagination = () => {
   const [searchParams, setSearchParams] = useSearchParams();

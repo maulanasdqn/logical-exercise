@@ -1,5 +1,5 @@
 import { Box, HStack, Container, Heading } from "@chakra-ui/react";
-import { Routes, Route, Outlet } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "./Home";
 import Pokemon from "./PokemonList";
 import { Link } from "react-router-dom";
@@ -30,8 +30,10 @@ const App = () => {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="pokemon" element={<Pokemon />} />
-        <Route path="pokemon/:pokemonId" element={<PokemonDetail />} />
+        <Route path="/pokemon">
+          <Route index element={<Pokemon />} />
+          <Route path=":pokemonId" element={<PokemonDetail />} />
+        </Route>
         <Route
           path="/legend/"
           element={
