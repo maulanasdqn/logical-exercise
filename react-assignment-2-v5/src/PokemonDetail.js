@@ -1,8 +1,13 @@
 import { useEffect, useState, Fragment } from "react";
 import {
+  Heading,
+  Table,
   Badge,
+  Tbody,
   HStack,
   Text,
+  Tr,
+  Td,
   Flex,
   Box,
 } from "@chakra-ui/react";
@@ -15,50 +20,59 @@ const Detail = ({ pokemon }) => {
     <Box>
       {pokemon && (
         <Box role="pokemon-detail">
-          <Text fontSize={30} fontWeight={700}>
+          <Heading as="h2" size="xl">
             {pokemon.name}
-          </Text>
-          <Text fontSize={30} fontWeight={700}>
-            hp
-          </Text>
-          <Text fontSize={30} fontWeight={700}>
-            speed
-          </Text>
-          <Text fontSize={30} fontWeight={700}>
-            defense
-          </Text>
-          <Text fontSize={30} fontWeight={700}>
-            {pokemon.height}
-          </Text>
-
-          <Text fontSize={30} fontWeight={700}>
-            {pokemon.weight}
-          </Text>
+          </Heading>
 
           <Text fontSize={30} fontWeight={700}>
             {pokemon.types.map((x, i) => (
               <Fragment key={i}>
-                <Flex>
-                  <Badge>{x.type.name}</Badge>
-                </Flex>
+                <Badge mr="4">{x.type.name}</Badge>
               </Fragment>
             ))}
           </Text>
 
-          <Text fontSize={30} fontWeight={700}></Text>
-          {pokemon.abilities.map((x, i) => (
-            <Fragment key={i}>
-              <Flex>
-                <Badge>{x.ability.name}</Badge>
-              </Flex>
-            </Fragment>
-          ))}
           <HStack>
             <Image src={pokemon.sprites.front_default} />
             <Image src={pokemon.sprites.back_default} />
             <Image src={pokemon.sprites.front_shiny} />
             <Image src={pokemon.sprites.back_shiny} />
           </HStack>
+
+          <Table variant="simple">
+            <Tbody>
+              <Tr>
+                <Td>Height</Td>
+                <Td>{pokemon.height}</Td>
+              </Tr>
+              <Tr>
+                <Td>Weight</Td>
+                <Td>{pokemon.weight}</Td>
+              </Tr>
+              <Tr>
+                <Td>Base experience</Td>
+                <Td>{pokemon.base_experience}</Td>
+              </Tr>
+              <Tr>
+                <Td>Abilities</Td>
+                {pokemon.abilities.map((x, i) => (
+                  <Fragment key={i}>
+                    <Flex>{x.ability.name}</Flex>
+                  </Fragment>
+                ))}
+              </Tr>
+              <Tr>
+                <Td>Stats</Td>
+                {pokemon.stats.map((x, i) => (
+                  <Fragment key={i}>
+                    <Flex>
+                      {x.stat.name} : {x.base_stat}
+                    </Flex>
+                  </Fragment>
+                ))}
+              </Tr>
+            </Tbody>
+          </Table>
         </Box>
       )}
     </Box>
