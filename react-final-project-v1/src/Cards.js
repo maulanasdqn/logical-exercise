@@ -1,46 +1,24 @@
-import { SimpleGrid, Image, Text, Flex, Card as Kartu } from "@chakra-ui/react";
-import { Fragment } from "react";
+import { SimpleGrid, Image, Heading, Box } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 function Card({ card }) {
   return (
-    <SimpleGrid gap={6} columns={3} padding={10} spacing={10}>
+    <SimpleGrid gap={6} columns={4} padding={10} spacing={10}>
       {card.map((x, i) => (
-        <Fragment key={i}>
-          <Kartu
-            borderColor={"blackAlpha.600"}
-            borderWidth={2}
+        <Link key={i} to={`card/${x.id}`}>
+          <Box
+            className="yugioh-card"
+            key={i}
+            display={"flex"}
             gap={2}
-            justifyContent={"start"}
-            alignItems={"center"}
-            padding={"1rem"}
-            height={"auto"}
+            flexDirection={"column"}
           >
-            <Flex gap={2}>
-              <Text textAlign={"center"} fontSize={"20px"}>
-                Atk {x.atk}
-              </Text>
-              <Text textAlign={"center"} fontSize={"20px"}>
-                Def {x.def}
-              </Text>
-            </Flex>
-            <Image src={x.card_images.map((y) => y.image_url)} />
-            <Text textAlign={"center"} fontSize={"20px"}>
-              {x.id}
-            </Text>
-            <Text textAlign={"center"} fontSize={"20px"}>
-              Attribute {x.attribute}
-            </Text>
-            <Text textAlign={"center"} fontSize={"20px"}>
-              Type {x.type}
-            </Text>
-            <Text textAlign={"center"} fontWeight={700} fontSize={"20px"}>
+            <Heading textAlign={"center"} fontSize={"20px"}>
               {x.name}
-            </Text>
-            <Text textAlign={"center"} fontSize={"12px"}>
-              {x.desc}
-            </Text>
-          </Kartu>
-        </Fragment>
+            </Heading>
+            <Image src={x.card_images.map((y) => y.image_url)} />
+          </Box>
+        </Link>
       ))}
     </SimpleGrid>
   );

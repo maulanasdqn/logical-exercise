@@ -1,6 +1,7 @@
 import { Select, Flex } from "@chakra-ui/react";
 import { Suspense, useEffect, useState } from "react";
 import Card from "./Cards";
+import Loading from "./Loading";
 
 function Home() {
   const [data, setData] = useState([]);
@@ -21,7 +22,20 @@ function Home() {
   };
 
   function sortData(type) {
-    if(type === "name"){
+    if (type === "name") {
+      setData(
+        [...data].sort((a, b) =>
+          a.name > b.name ? 1 : a.name === b.name ? 1 : -1
+        )
+      );
+    }
+
+    if (type === "attack") {
+      setData([...data].sort((a, b) => parseInt(a.atk) - parseInt(b.atk)));
+    }
+
+    if (type === "defence") {
+      setData([...data].sort((a, b) => parseInt(a.def) - parseInt(b.def)));
     }
   }
 

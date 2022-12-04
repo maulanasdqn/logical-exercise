@@ -5,11 +5,17 @@ import Card from "./Cards";
 import Detail from "./Detail";
 
 const App = () => {
+  const fetchCardById = async (id) =>
+    await fetch(`https://db.ygoprodeck.com/api/v7/cardinfo.php?id=${id}`);
   const MyRouter = () => (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/card" element={<Card />} />
-      <Route path="/card/:id" element={<Detail />} />
+      <Route
+        path="/card/:id"
+        loader={async ({ params }) => await fetchCardById(params.id)}
+        element={<Detail />}
+      />
       <Route
         path="*"
         element={
