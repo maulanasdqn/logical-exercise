@@ -1,41 +1,32 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useState } from "react";
 import Card from "../components/Card";
 
 const Photos = () => {
+  const url = "http://localhost:3001/photos";
   const [photos, setPhotos] = useState([]);
-  const [sort, setSort] = useState("asc");
+  const [params, setParams] = useState(url);
+  const [sort, setSort] = useState("desc");
   const [submited, setSubmited] = useState("");
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const url = "http://localhost:3001/photos";
-
-  const fetchPhotos = async (query, sort) => {
+  const fetchPhotos = useCallback(async () => {
     setLoading(true);
-    const config = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
     try {
-      const res = await fetch(
-        url + `?q=${query}&_sort=${"id"}&_order=${sort}`,
-        config
-      );
+      const res = await fetch(params);
       const data = await res.json();
       setPhotos(data);
     } catch (e) {
       setError(e.message);
     }
     setLoading(false);
-  };
+  }, [params]);
 
   useEffect(() => {
-    fetchPhotos(submited, sort);
-  }, [sort, submited]);
+    fetchPhotos();
+  }, [fetchPhotos, submited, sort]);
 
   if (error)
     return (
@@ -49,7 +40,10 @@ const Photos = () => {
       <div className="container">
         <div className="options">
           <select
-            onChange={(e) => setSort(e.target.value)}
+            onChange={(e) => {
+              setSort(e.target.value);
+              setParams(url + `?_sort=id&_order=${sort}`);
+            }}
             data-testid="sort"
             className="form-select"
             style={{}}
@@ -61,6 +55,7 @@ const Photos = () => {
             onSubmit={(e) => {
               e.preventDefault();
               setSubmited(search);
+              setParams(url + `?q=${search}`);
             }}
           >
             <input
