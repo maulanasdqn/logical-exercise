@@ -1,5 +1,7 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+
+const parseDate = (date) => date.toISOString().slice(0, 10);
 
 const EditPhoto = () => {
   const url = "http://localhost:3001/photos";
@@ -11,26 +13,38 @@ const EditPhoto = () => {
   const { id } = useParams();
 
   const editPhoto = async (e) => {
+    const config = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        imageUrl,
+        captions,
+        updatedAt: parseDate(new Date()),
+      }),
+    };
     e.preventDefault();
-    navigate(-1);
+    await fetch(url + `/${id}`, config);
+    navigate("/photos");
   };
 
-  const fetchPhotos = useCallback(async (id) => {
-    setLoading(true);
+  const fetchPhotos = async (id) => {
     try {
+      setLoading(true);
       const res = await fetch(`${url}/${id}`);
       const data = await res.json();
       setImageUrl(await data.imageUrl);
       setCaptions(await data.captions);
+      setLoading(false);
     } catch (e) {
       setError(e.message);
     }
-    setLoading(false);
-  }, []);
+  };
 
   useEffect(() => {
     fetchPhotos(id);
-  }, [id, fetchPhotos]);
+  }, [id]);
 
   if (error) return <div>Error!</div>;
 

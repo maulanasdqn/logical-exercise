@@ -12,16 +12,13 @@ const Photos = () => {
   const [error, setError] = useState(null);
 
   const deletePhoto = async (id) => {
+    setParams((prev) => prev + "/" + id);
     const config = {
       method: "DELETE",
     };
-    await fetch(url + `/${id}`, config);
-    const res = await fetch(url);
-    const data = await res.json();
-    const expectedCaptions = data
-      .filter((photo) => photo.id !== 10)
-      .map((photo) => photo);
-    setPhotos(await expectedCaptions);
+    const res = await fetch(params, config);
+    await fetchPhotos();
+    return res
   };
 
   const fetchPhotos = useCallback(async () => {
@@ -29,7 +26,7 @@ const Photos = () => {
     try {
       const res = await fetch(params);
       const data = await res.json();
-      setPhotos(await data);
+      setPhotos(data);
     } catch (e) {
       setError(e.message);
     }
