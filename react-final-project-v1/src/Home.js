@@ -6,25 +6,26 @@ function Home() {
   let temp = [];
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState("name");
-  const [sorting, setSorting] = useState([]);
+
   const url =
     "https://db.ygoprodeck.com/api/v7/cardinfo.php?banlist=tcg&level=4";
   const getData = async () => {
     await fetch(url)
       .then((res) => res.json())
-      .then((res) => {
-        if (filter === "name") {
-          setData(res.data.sort((x, y) => (x.name > y.name ? 1 : -1)));
-        } else if (filter === "attack") {
-          setData(res.data.sort((x, y) => (x.atk > y.atk ? 1 : -1)));
-        }
-      });
+      .then((res) => setData(res.data));
   };
-  temp = [...data];
-  const sortData = (type) => {
-    if (type === "name") {
-      temp = temp;
-    }
+  const SortData = async (type) => {
+    await setData(
+      [...data].sort((x, y) =>
+        type === "name"
+          ? x.name > y.name
+            ? 1
+            : -1
+          : type === "attack"
+          ? x.atk - y.atk
+          : type === "defence" && x.def - y.def
+      )
+    );
   };
 
   useEffect(() => {
@@ -34,7 +35,9 @@ function Home() {
     <>
       <Container maxW={"5xl"} pt="20px">
         <Select
-          onChange={(e) => setFilter(e.target.value)}
+          onChange={(e) => {
+            SortData(e.target.value);
+          }}
           name="sort"
           placeholder="Sort by"
         >
@@ -53,6 +56,8 @@ function Home() {
                 name={el.name}
                 level={el.level}
                 image={el.card_images[0].image_url}
+                attack={el.atk}
+                def={el.def}
               />
             ))}
           </SimpleGrid>

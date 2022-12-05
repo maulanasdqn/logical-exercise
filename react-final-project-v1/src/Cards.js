@@ -1,6 +1,6 @@
 import { SimpleGrid, Box, Image, Text, Heading } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-function Card({ image, name, level, id }) {
+function Card({ image, name, level, id, attack, def }) {
   return (
     <>
       <SimpleGrid mt="20px" columns={4} spacing={10}>
@@ -12,6 +12,12 @@ function Card({ image, name, level, id }) {
             </Heading>
             <Text textAlign="center" fontSize="sm">
               Level {level}
+            </Text>
+            <Text textAlign="center" fontSize="sm">
+              Attack {attack}
+            </Text>
+            <Text textAlign="center" fontSize="sm">
+              Defence {def}
             </Text>
           </Box>
         </Link>
