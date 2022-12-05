@@ -1,0 +1,66 @@
+Arguments: 
+  C:\Users\Randika\scoop\apps\nodejs-lts\current\node.exe C:\Users\Randika\scoop\apps\nodejs-lts\current\bin\node_modules\yarn\bin\yarn.js
+
+PATH: 
+  C:\Program Files\WindowsApps\Microsoft.PowerShell_7.3.0.0_x64__8wekyb3d8bbwe;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\ProgramData\chocolatey\bin;C:\Grader;C:\Users\Randika\AppData\Local\Programs\Microsoft VS Code;C:\Users\Randika\scoop\apps\nodejs-lts\current\bin;C:\Users\Randika\scoop\apps\nodejs-lts\current;C:\Users\Randika\scoop\apps\vscode\current\bin;C:\Users\Randika\scoop\apps\nvm\current\nodejs\nodejs;C:\Users\Randika\scoop\shims;C:\Users\Randika\AppData\Local\pnpm;C:\Users\Randika\AppData\Local\Microsoft\WindowsApps\WindowsApps;C:\Users\Randika\AppData\Local\Programs\oh-my-posh\bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  18.12.1
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001435.tgz: ESOCKETTIMEDOUT
+      at ClientRequest.<anonymous> (C:\Users\Randika\scoop\persist\nodejs-lts\bin\node_modules\yarn\lib\cli.js:141517:19)
+      at Object.onceWrapper (node:events:627:28)
+      at ClientRequest.emit (node:events:513:28)
+      at TLSSocket.emitRequestTimeout (node:_http_client:838:9)
+      at Object.onceWrapper (node:events:627:28)
+      at TLSSocket.emit (node:events:525:35)
+      at Socket._onTimeout (node:net:562:8)
+      at listOnTimeout (node:internal/timers:564:17)
+      at process.processTimers (node:internal/timers:507:7)
+
+npm manifest: 
+  {
+    "name": "react-starter",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+      "@testing-library/jest-dom": "^5.16.5",
+      "@testing-library/react": "^13.4.0",
+      "@testing-library/user-event": "^13.5.0",
+      "react": "^18.2.0",
+      "react-dom": "^18.2.0",
+      "react-scripts": "5.0.1"
+    },
+    "scripts": {
+      "start": "react-scripts start",
+      "build": "react-scripts build",
+      "test": "react-scripts test --watchAll=false",
+      "eject": "react-scripts eject"
+    },
+    "eslintConfig": {},
+    "browserslist": {
+      "production": [
+        ">0.2%",
+        "not dead",
+        "not op_mini all"
+      ],
+      "development": [
+        "last 1 chrome version",
+        "last 1 firefox version",
+        "last 1 safari version"
+      ]
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
