@@ -1,20 +1,22 @@
-// TODO: answer here
+import { Route, Routes } from "react-router-dom";
 
+import Home from "./Home";
+import Detail from "./Detail";
+import Notfound from "./Notfound";
+import Navbar from "./Navbar";
 const App = () => {
-  const MyRouter = () => <div>Answer here</div>; // TODO: replace this
+  const MyRouter = () => (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/card/:id" element={<Detail />} />
+      <Route path="*" element={<Notfound />} />
+    </Routes>
+  );
 
   return (
     <div className="App">
-      {/* Navbar */}
-      <Box w="100vw" bg="#b25819" p={6}>
-        <Center>
-          <Heading as="h1" color="#e2ded5">
-            Yugi-Oh Card Deck
-          </Heading>
-        </Center>
-      </Box>
+      <Navbar />
 
-      {/* Route */}
       <MyRouter />
     </div>
   );
