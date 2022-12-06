@@ -17,26 +17,27 @@ import { useSearchParams } from "react-router-dom";
 
 const Pagination = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentPage = searchParams.get("page");
-
+  let currentPage =
+    searchParams.get("page") === null ? 1 : parseInt(searchParams.get("page"));
+  console.log(searchParams.get("page"));
   const moveTo = (direction) => {
-    if (direction === "prev") {
-      setSearchParams({ page: parseInt(currentPage) - 1 });
-    } else if (direction === "next") {
-      setSearchParams({ page: parseInt(currentPage) + 1 });
-    }
+    direction === "prev"
+      ? setSearchParams({ page: currentPage - 1 })
+      : direction === "next" && setSearchParams({ page: currentPage + 1 });
   };
 
   return (
     <HStack>
-      <Button onClick={() => moveTo("prev")}>{`< Prev`}</Button>
+      <Button
+        disabled={currentPage === 1 ? true : false}
+        onClick={() => moveTo("prev")}
+      >{`< Prev`}</Button>
       <Button onClick={() => moveTo("next")}>{`Next >`}</Button>
     </HStack>
   );
 };
 
 const PokemonList = ({ pokemons }) => {
-  console.log(pokemons);
   return (
     pokemons &&
     pokemons.length > 0 && (

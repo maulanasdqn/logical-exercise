@@ -16,7 +16,6 @@ import { Table } from "@chakra-ui/react";
 import { Tbody } from "@chakra-ui/react";
 
 const Detail = ({ pokemon }) => {
-  console.log(pokemon);
   return (
     <Box>
       {pokemon && (
@@ -69,7 +68,7 @@ const Page = () => {
     const data = await response.json();
     setPokemon(data);
   };
-  console.log(pokemonId);
+
   useEffect(() => {
     fetchPokemon(pokemonId);
   }, [pokemonId]);
