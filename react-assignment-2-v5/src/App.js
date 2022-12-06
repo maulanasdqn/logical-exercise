@@ -32,9 +32,16 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="pokemon">
           <Route index element={<Pokemon />} />
-          <Route path=":id" element={<PokemonDetail />} />
+          <Route path=":pokemonId" element={<PokemonDetail />} />
         </Route>
-
+        <Route
+          path="/legend/"
+          element={
+            <ProtectedRoute>
+              <PokemonLegend />
+            </ProtectedRoute>
+          }
+        />
         <Route path="unauthorized" element={<Unauthorized />} />
       </Routes>
     </Container>

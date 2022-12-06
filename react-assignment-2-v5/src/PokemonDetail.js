@@ -1,30 +1,57 @@
 import { useEffect, useState } from "react";
-import { Badge, Tr, Td, HStack, VStack, Heading, Box } from "@chakra-ui/react";
+import {
+  Badge,
+  Tr,
+  Td,
+  HStack,
+  VStack,
+  Heading,
+  Box,
+  Text,
+} from "@chakra-ui/react";
 
 import { Image } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { Table } from "@chakra-ui/react";
 import { Tbody } from "@chakra-ui/react";
 
 const Detail = ({ pokemon }) => {
-  const { id } = useParams();
+  console.log(pokemon);
   return (
     <Box>
       {pokemon && (
         <Box role="pokemon-detail">
-          {/* TODO: display pokemon name here */}
-          {/* TODO: answer here */}
+          <Heading>{pokemon.name}</Heading>
+          {pokemon.types.map((el, i) => (
+            <div key={i}>
+              <Text>{el.type.name}</Text>
+            </div>
+          ))}
+          <Box>
+            <Text>{pokemon.height}</Text>
+            <Text>{pokemon.weight}</Text>
+          </Box>
 
-          {/* TODO: display pokemon type here */}
-          {/* TODO: answer here */}
           <HStack>
             <Image src={pokemon.sprites.front_default} />
             <Image src={pokemon.sprites.back_default} />
             <Image src={pokemon.sprites.front_shiny} />
             <Image src={pokemon.sprites.back_shiny} />
           </HStack>
-          {/* TODO: render pokemon height, weight, base_experience, abilities, and stats here */}
-          {/* TODO: answer here */}
+          <Box>
+            {pokemon.abilities.map((el, i) => (
+              <div key={i}>
+                <Text>{el.ability.name}</Text>
+              </div>
+            ))}
+          </Box>
+          <Box>
+            {pokemon.stats.map((el, i) => (
+              <div key={i}>
+                <Text>{el.stat.name}</Text>
+              </div>
+            ))}
+          </Box>
         </Box>
       )}
     </Box>
@@ -32,17 +59,19 @@ const Detail = ({ pokemon }) => {
 };
 const Page = () => {
   //TODO: read pokemonId from parameter
-  const { pokemonId } = { pokemonId: 100 }; // TODO: replace this
+  const { pokemonId } = useParams(); // TODO: replace this
   const [pokemon, setPokemon] = useState(null);
 
-  const fetchPokemon = async (id) => {
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`);
+  const fetchPokemon = async (pokemonId) => {
+    const response = await fetch(
+      `https://pokeapi.co/api/v2/pokemon/${pokemonId}/`
+    );
     const data = await response.json();
     setPokemon(data);
   };
-
+  console.log(pokemonId);
   useEffect(() => {
-    // TODO: answer here
+    fetchPokemon(pokemonId);
   }, [pokemonId]);
 
   return <Detail pokemon={pokemon} />;

@@ -8,6 +8,8 @@ import {
   Box,
   Badge,
   Button,
+  Container,
+  Flex,
 } from "@chakra-ui/react";
 import { Image } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
@@ -15,30 +17,31 @@ import { useSearchParams } from "react-router-dom";
 
 const Pagination = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentPage = 1; // TODO: replace this
+  const currentPage = searchParams.get("page");
 
   const moveTo = (direction) => {
     if (direction === "prev") {
-      // TODO: answer here
-    } else {
-      // TODO: answer here
+      setSearchParams({ page: parseInt(currentPage) - 1 });
+    } else if (direction === "next") {
+      setSearchParams({ page: parseInt(currentPage) + 1 });
     }
   };
 
   return (
     <HStack>
-      {/* TODO: render Prev and Next button */}
-      {/* TODO: answer here */}
+      <Button onClick={() => moveTo("prev")}>{`< Prev`}</Button>
+      <Button onClick={() => moveTo("next")}>{`Next >`}</Button>
     </HStack>
   );
 };
 
 const PokemonList = ({ pokemons }) => {
+  console.log(pokemons);
   return (
     pokemons &&
     pokemons.length > 0 && (
       <Box role="pokemon-list">
-        {pokemons.map((pokemon) => (
+        {pokemons.map((pokemon, i) => (
           <Link key={pokemon.id} to={`/pokemon/${pokemon.id}`}>
             <Card>
               <CardHeader>
@@ -46,8 +49,21 @@ const PokemonList = ({ pokemons }) => {
                   {pokemon.name}
                 </Heading>
               </CardHeader>
-              {/* TODO: render pokemon images & type here */}
-              {/* TODO: answer here */}
+              <Flex>
+                <Image
+                  alt="Front Default"
+                  src={pokemons[i].sprites.front_default}
+                />
+                <Image
+                  alt="Back Default"
+                  src={pokemons[i].sprites.back_default}
+                />
+                <Image
+                  alt="Front Shiny"
+                  src={pokemons[i].sprites.front_shiny}
+                />
+                <Image alt="Back Shiny" src={pokemons[i].sprites.back_shiny} />
+              </Flex>
             </Card>
           </Link>
         ))}
