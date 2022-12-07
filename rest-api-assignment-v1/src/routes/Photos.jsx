@@ -13,13 +13,10 @@ const Photos = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const getPhotos = async () => {
-    try {
-      await fetch(query)
-        .then((res) => res.json())
-        .then((res) => setPhotos(res));
-    } catch (error) {
-      setError(error);
-    }
+    const data = await fetch(query);
+    const json = await data.json();
+    setPhotos(json);
+    json.error && setError(json.error);
   };
 
   useEffect(() => {

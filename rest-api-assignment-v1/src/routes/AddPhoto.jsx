@@ -12,28 +12,23 @@ const AddPhoto = () => {
   const addPhoto = async (e) => {
     e.preventDefault();
 
-    try {
-      const data = {
-        imageUrl,
-        captions,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        secret,
-      };
+    const photo = {
+      imageUrl,
+      captions,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      secret,
+    };
 
-      const res = await fetch(url, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((res) => res.json);
-      if (res.error) setError(res.error);
-      console.log(Date.now());
-      navigate("/photos");
-    } catch (e) {
-      setError(e.message);
-    }
+    const data = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(photo),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const json = await data.json();
+    json.error ? setError(json.error) : navigate("/photos");
   };
 
   return (
