@@ -3,6 +3,8 @@ import { useState } from "react";
 import Card from "../components/Card";
 
 const Photos = () => {
+  const url = "http://localhost:3001/photos";
+  const [query, setQuery] = useState(url);
   const [photos, setPhotos] = useState([]);
   const [sort, setSort] = useState("asc");
   const [submited, setSubmited] = useState("");
@@ -10,28 +12,43 @@ const Photos = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const deletePhoto = (id) => {
-    // TODO: answer here
+  const deletePhoto = async (id) => {
+    await fetch(`http://localhost:3001/photos/${id}`, {
+      method: "DELETE",
+    });
+    const photo = await fetch(query);
+    const response = await photo.json();
+    setPhotos(response.filter((el) => el.id !== 10));
+  };
+  const getPhotos = async () => {
+    const photo = await fetch(query);
+    const response = await photo.json();
+    response.error && setError(response.error);
+    setPhotos(response);
   };
 
   useEffect(() => {
     setLoading(true);
-    // TODO: answer here
+    getPhotos();
+    setLoading(false);
   }, [sort, submited]);
 
-  useEffect(() => {
-    setLoading(true);
-    // TODO: answer here
-  }, []);
-
-  if (error) return <h1 style={{ width: "100%", textAlign: "center", marginTop: "20px" }} >Error!</h1>;
+  if (error)
+    return (
+      <h1 style={{ width: "100%", textAlign: "center", marginTop: "20px" }}>
+        Error!
+      </h1>
+    );
 
   return (
     <>
       <div className="container">
         <div className="options">
           <select
-            onChange={(e) => setSort(e.target.value)}
+            onChange={(e) => {
+              setSort(e.target.value);
+              setQuery(url + `/?_sort=id&_order=${e.target.value}`);
+            }}
             data-testid="sort"
             className="form-select"
             style={{}}
@@ -43,6 +60,7 @@ const Photos = () => {
             onSubmit={(e) => {
               e.preventDefault();
               setSubmited(search);
+              setQuery(url + `/?_sort=id&_order=${sort}&q=${search}`);
             }}
           >
             <input

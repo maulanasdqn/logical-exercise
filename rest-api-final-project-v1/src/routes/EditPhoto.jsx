@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 const EditPhoto = () => {
+  const url = "http://localhost:3001/photos";
   const [imageUrl, setImageUrl] = useState("");
   const [captions, setCaptions] = useState("");
   const [loading, setLoading] = useState(false);
@@ -10,14 +11,35 @@ const EditPhoto = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const editPhoto = (e) => {
+  const getPhoto = async () => {
+    const photo = await fetch(url + `/${id}`);
+    const response = await photo.json();
+    response.error && setError(response.error);
+    setImageUrl(response.imageUrl);
+    setCaptions(response.captions);
+  };
+  const editPhoto = async (e) => {
     e.preventDefault();
-    // TODO: answer here
+    const data = {
+      imageUrl,
+      captions,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    };
+    await fetch(url + `/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    navigate("/photos");
   };
 
   useEffect(() => {
     setLoading(true);
-    // TODO: answer here
+    getPhoto();
+    setLoading(false);
   }, [id]);
 
   if (error) return <div>Error!</div>;
@@ -50,7 +72,12 @@ const EditPhoto = () => {
                 onChange={(e) => setCaptions(e.target.value)}
               />
             </label>
-            <input className="submit-btn" type="submit" value="Submit" data-testid="submit" />
+            <input
+              className="submit-btn"
+              type="submit"
+              value="Submit"
+              data-testid="submit"
+            />
           </form>
         </div>
       )}

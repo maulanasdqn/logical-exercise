@@ -2,22 +2,39 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AddPhoto = () => {
+  const url = "http://localhost:3001/photos";
   const [imageUrl, setImageUrl] = useState("");
   const [captions, setCaptions] = useState("");
   const [secret, setSecret] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const addPhoto = (e) => {
+  const addPhoto = async (e) => {
     e.preventDefault();
-    // TODO: answer here
+
+    const photo = {
+      imageUrl,
+      captions,
+      secret,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    };
+    const data = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(photo),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const json = await data.json();
+    json.error ? setError(json.error) : navigate("/photos");
   };
 
   return (
     <>
       <div className="container">
-      {error && <div className="error-msg">{error}</div>}
-        <form className="add-form"  onSubmit={addPhoto}>
+        {error && <div className="error-msg">{error}</div>}
+        <form className="add-form" onSubmit={addPhoto}>
           <label>
             Image Url:
             <input
@@ -48,7 +65,12 @@ const AddPhoto = () => {
               onChange={(e) => setSecret(e.target.value)}
             />
           </label>
-          <input className="submit-btn" type="submit" value="Submit" data-testid="submit" />
+          <input
+            className="submit-btn"
+            type="submit"
+            value="Submit"
+            data-testid="submit"
+          />
         </form>
       </div>
     </>

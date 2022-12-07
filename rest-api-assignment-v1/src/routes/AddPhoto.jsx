@@ -15,8 +15,8 @@ const AddPhoto = () => {
     const photo = {
       imageUrl,
       captions,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
       secret,
     };
 
